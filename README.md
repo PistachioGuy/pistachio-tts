@@ -17,7 +17,6 @@ options:
 ```
 <br>
 Example usage:<br>
-``` python3 tts.py --decompress -i "The quick brown fox jumped over the lazy dog"
-```
+`test`
 <br><br>
 It's reccomended that you always use --decompress, it only takes an extra 16 megabytes (instead of 3) for the recordings, and makes it many times faster.
