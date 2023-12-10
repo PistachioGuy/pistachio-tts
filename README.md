@@ -1,4 +1,4 @@
-# tts
+# Pistachio Text to Speech
 My python text to speech project
 <br>
 Requirements:
