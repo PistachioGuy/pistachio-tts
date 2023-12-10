@@ -8,7 +8,8 @@ Requirements:
  - pydub
 
 options:
-```  -h, --help            show this help message and exit
+```
+  -h, --help            show this help message and exit
   -i INPUT, --input INPUT
   --decompress          Decompress recordings to raw uncompressed wavs instead of mp3s. This takes up a bit more storage but makes generation of long
                         texts multiple times faster. Use this arguement every time you want to use uncompressed training data, otherwise it will default to
