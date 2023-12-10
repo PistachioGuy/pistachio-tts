@@ -1,5 +1,5 @@
 # tts
-My goofy python text to speech that doesn't work very well.
+My python text to speech project
 
 
 Requirements:
