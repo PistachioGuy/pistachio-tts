@@ -1,5 +1,5 @@
-# tts
-My goofy python text to speech that doesn't work very well.
+# Pistachio Text to Speech
+My python text to speech project
 
 
 Requirements:
@@ -8,7 +8,8 @@ Requirements:
  - pydub
 
 options:
-```  -h, --help            show this help message and exit
+```
+  -h, --help            show this help message and exit
   -i INPUT, --input INPUT
   -v VOLUME, --volume VOLUME
                         Sets output volume, default is 2.0
@@ -19,4 +20,7 @@ options:
   --debug               Long debug output
 ```
 
-It's reccomended that you always use --decompress, it only takes an extra 16 megabytes (instead of 3) for the recordings, and makes it many times faster.
+Example usage:
+`python3 tts.py --decompress -i "The quick brown fox jumped over the lazy dog." `
+
+It's reccomended that you always use `--decompress`, it only takes an extra 16 megabytes (instead of 3) for the recordings, and makes it many times faster. It takes a while to decompress the first time but it only does it once.
