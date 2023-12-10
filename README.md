@@ -11,6 +11,8 @@ options:
 ```
   -h, --help            show this help message and exit
   -i INPUT, --input INPUT
+  -o OUTPUT, --output OUTPUT
+                        Default is tts-output.mp3 in the running directory
   -v VOLUME, --volume VOLUME
                         Sets output volume, default is 2.0
   --decompress          Decompress recordings to raw uncompressed wavs instead of mp3s. This takes up a bit more storage but makes generation of long
