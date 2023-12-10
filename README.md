@@ -16,7 +16,7 @@ options:
   --debug               Long debug output
 ```
 <br>
-Example usage:
+Example usage:<br>
 ```
 python3 tts.py --decompress -i "The quick brown fox jumped over the lazy dog"
 ```
