@@ -10,20 +10,20 @@ parser.add_argument("--del-uncompressed", action="store_true", help="Delete unco
 parser.add_argument("--debug", action="store_true", help="Long debug output.")
 args = parser.parse_args()
 debug = args.debug
-recdir="rec/"
-filetype="mp3"
-sounds=os.listdir(recdir)
 volume="2.0"
 if args.volume != None:
 	volume=args.volume
 try:
-	if int(volume) >= 4:
-		input("Warning: With this volume the output file will be VERY LOUD and may damage your ears. I would reccomend lowering it. Press enter to continue anyway.")
+	if float(volume) >= 4:
+		input("WARNING: With this volume the output file will be VERY LOUD and may damage your ears. I would recommend lowering it. Press enter to continue anyway.")
 except:
 	print("Invalid volume! Must be a number. 2.0 is default volume.")
 	args.input=None
 if args.del_uncompressed==True:
 	shutil.rmtree("rawrec")
+recdir="rec/" #recordings directory
+filetype="mp3"
+sounds=os.listdir(recdir) #list available recordings in sounds list
 if args.decompress==True:
 	recdir="rawrec/"
 	filetype="wav"
@@ -39,10 +39,13 @@ if args.decompress==True:
 	else:
 		print("Uncompressed recordings folder already exists, if you want compress the audio again, use --del-uncompressed.")
 	sounds=os.listdir(recdir) #update sounds to new decompressed state
-def sound(sound):
-	global recdir, filetype
+def sound(sound): #Function to load audio from file
+	global recdir
 	return AudioSegment.from_file(recdir+sound)
-def section(x,y):
+def section(x,y): #Function to get specific part of input text using x and y, see comment bellow.
+	#x is how many characters we are from the end of the text,
+	#y is how many characters we are grabbing, starting from x
+	#pos is where we are in the text from the start, aka length-x
 	global length
 	pos=length-x
 	return origtext[pos-y:pos]
@@ -68,15 +71,14 @@ if args.input != None:
 				print("x: " +str(x)+", y: "+str(y))
 				print(section(x,y))
 			if (section(x,y)+"."+filetype) in sounds:
-				splittext.append(section(x,y)+"."+filetype)
+				splittext.append(section(x,y)+"."+filetype) # Add name of decided recording to splittext: the list of recordings that form the final output
 				x+=y
 				found=True
 				break
 			y-=1
 		if found == False:
 			x+=1
-	
-	splitttext = splittext.reverse()
+	splitttext = splittext.reverse() # reverse the order of the list of letter combinations, changing it from ["est", "t"] to ["t", "est"]
 	print(splittext)
 	lengthsplit=len(splittext)
 	finalsound=AudioSegment.empty()
@@ -86,5 +88,5 @@ if args.input != None:
 		percent=(str(round((y/lengthsplit)*100))+"%")
 		print(f"Generating: {percent}", end='\r')
 		y+=1
-	print("Done! Find output.mp3 in the program's running directory.")
 	finalsound.export("output.mp3", format="mp3", parameters=["-filter:a", "volume="+volume+""])
+	print("Done! Find output.mp3 in the program's running directory.")
