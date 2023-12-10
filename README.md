@@ -17,7 +17,7 @@ options:
   --debug               Long debug output
 ```
 
-Example usage:
+<p>Example usage:</p>
 `python3 tts.py --decompress -i "The quick brown fox jumped over the lazy dog"`
 
-It's reccomended that you always use --decompress, it only takes an extra 16 megabytes (instead of 3) for the recordings, and makes it many times faster.
+<p>It's reccomended that you always use --decompress, it only takes an extra 16 megabytes (instead of 3) for the recordings, and makes it many times faster.</p>
