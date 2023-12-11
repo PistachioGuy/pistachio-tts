@@ -87,18 +87,22 @@ if args.input != None:
 		else:
 			y=8
 		found=False
-		while y >= 0:
+		while y > 0:
+			if section(x,y)=="":
+				y-=1
+				continue
 			if debug==True:
 				print("x: " +str(x)+", y: "+str(y))
 				print(section(x,y))
 			currentfile=section(x,y)+"."+filetype #in the next line we are checking to see if the filename in this variable exists in the recordings, to see if a certain set of characters has a recording.
+			currentfilewithoutlastchar =section(x,y)[:-1]+"."+filetype
 			if (currentfile in sounds):#check if filename exists
 				splittext.append(currentfile) # Add name of decided recording to splittext: the list of recordings that form the final output
 				x+=y
 				found=True
 				break
-			elif re.sub("-", "", (currentfile)) in sounds: #if filename from last if statement doesn't exist, check if that file name without any - exists. eg. does ated-.mp3 exist? no, does ated.mp3 exist, yes. That way it won't prioritize ed-.mp3 and do a.mp3 t.mp3 ed-.mp3
-				splittext.append(re.sub("-", "", (currentfile)))
+			elif (section(x,y)[-1] == "-") and (currentfilewithoutlastchar in sounds): #if filename from last if statement doesn't exist, check if the last character is "-". If so, check if it exists without the "-" eg. does ated-.mp3 exist? no, does ated.mp3 exist, yes. That way it won't prioritize ed-.mp3 and do a.mp3 t.mp3 ed-.mp3
+				splittext.append(currentfilewithoutlastchar) # Add name of decided recording to splittext: the list of recordings that form the final output
 				x+=y
 				found=True
 				break
