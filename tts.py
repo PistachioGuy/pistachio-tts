@@ -3,7 +3,7 @@ import os
 import argparse
 import shutil
 import re
-parser = argparse.ArgumentParser(prog='Text to Speech', description='Converts text to speech.', epilog='Have fun!')
+parser = argparse.ArgumentParser(prog='Text to Speech', description='Converts text to speech.', formatter_class=argparse.RawDescriptionHelpFormatter, epilog='Example usage:\n  tts.py --decompress -i "The quick brown fox jumped over the lazy dog." ')
 parser.add_argument("-i", "--input")
 parser.add_argument("-o", "--output", help="Default is tts-output.mp3 in the running directory")
 parser.add_argument("-v", "--volume", help="Sets output volume, default is 2.0")
@@ -50,12 +50,12 @@ if args.decompress==True:
 	filetype="wav"
 	if os.path.isdir("rawrec")==False:
 		os.mkdir("rawrec")
-		currentfile=0
+		y=0
 		for x in sounds:
 			recording=AudioSegment.from_file("rec/"+x)
 			recording.export("rawrec/"+os.path.splitext(x)[0]+".wav", format="wav", parameters=["-acodec", "pcm_s16le", "-ar", "44100", "-ac", "2"])
-			currentfile+=1
-			print(f"Decompressing: {round((currentfile/len(sounds))*100)}%", end='\r')
+			y+=1
+			print(f"Decompressing: {round((y/len(sounds))*100)}%", end='\r')
 		print("\nDone!")
 	else:
 		print("Uncompressed recordings folder already exists, if you want compress the audio again, use --del-uncompressed.")
@@ -71,7 +71,7 @@ def section(x,y): #Function to get specific part of input text using x and y, se
 	pos=length-x
 	return origtext[pos-y:pos]
 if args.input != None:
-	origtext="-"+re.sub("[']", "-#-", (re.sub("[^0-9a-z']", ' ', args.input.lower()))).replace(" ", "-@-")+"-" # -#- replaces '  so don't becomes don-#-t to match the recording name don-#-t.mp3/wav
+	origtext="-"+re.sub("[']", "-#-", (re.sub("[^0-9a-z']", " ", args.input.lower()))).replace(" ", "-@-")+"-" # -#- replaces '  so don't becomes don-#-t to match the recording name don-#-t.mp3/wav
 	length=len(origtext)
 	print(origtext)
 	splittext=[]
@@ -91,8 +91,14 @@ if args.input != None:
 			if debug==True:
 				print("x: " +str(x)+", y: "+str(y))
 				print(section(x,y))
-			if (section(x,y)+"."+filetype) in sounds:
-				splittext.append(section(x,y)+"."+filetype) # Add name of decided recording to splittext: the list of recordings that form the final output
+			currentfile=section(x,y)+"."+filetype #in the next line we are checking to see if the filename in this variable exists in the recordings, to see if a certain set of characters has a recording.
+			if (currentfile in sounds):#check if filename exists
+				splittext.append(currentfile) # Add name of decided recording to splittext: the list of recordings that form the final output
+				x+=y
+				found=True
+				break
+			elif re.sub("-", "", (currentfile)) in sounds: #if filename from last if statement doesn't exist, check if that file name without any - exists. eg. does ated-.mp3 exist? no, does ated.mp3 exist, yes. That way it won't prioritize ed-.mp3 and do a.mp3 t.mp3 ed-.mp3
+				splittext.append(re.sub("-", "", (currentfile)))
 				x+=y
 				found=True
 				break
