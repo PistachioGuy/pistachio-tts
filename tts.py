@@ -2,6 +2,7 @@ from pydub import AudioSegment
 import os
 import argparse
 import shutil
+import re
 parser = argparse.ArgumentParser(prog='Text to Speech', description='Converts text to speech.', epilog='Have fun!')
 parser.add_argument("-i", "--input")
 parser.add_argument("-o", "--output", help="Default is tts-output.mp3 in the running directory")
@@ -70,7 +71,7 @@ def section(x,y): #Function to get specific part of input text using x and y, se
 	pos=length-x
 	return origtext[pos-y:pos]
 if args.input != None:
-	origtext="-"+args.input.lower().replace(" ", "-@-")+"-"
+	origtext="-"+re.sub("[']", "-#-", (re.sub("[^0-9a-z']", ' ', args.input.lower()))).replace(" ", "-@-")+"-" # -#- replaces '  so don't becomes don-#-t to match the recording name don-#-t.mp3/wav
 	length=len(origtext)
 	print(origtext)
 	splittext=[]
