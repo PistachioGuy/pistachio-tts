@@ -7,7 +7,7 @@ It works by scanning a word backwards for specific letter combinations.
 
 For example: "saturated"
 
-It starts with 8 characters, checking if `aturated.mp3` exists. It doesn't, next it tries `turated.mp3`, `urated.mp3`, `rated.mp3` and finally `ated.mp3` does exist. It skips back 4 characters to get rid of ated and checks for `satur.mp3`, `atur.mp3` etc. and finds `ur.mp3`. It skips back another 2 characters and finds `sat.mp3` first try, ending up with `['sat.mp3', 'ur.mp3', 'ated.mp3']`
+It starts with 10 characters, checking if `saturated.mp3` exists. It doesn't, next it tries `aturated.mp3`, `turated.mp3`, `urated.mp3`, `rated.mp3` and finally `ated.mp3` does exist. It skips back 4 characters to get rid of ated and checks for `satur.mp3`, `atur.mp3` etc. and finds `ur.mp3`. It skips back another 2 characters and finds `sat.mp3` first try, ending up with `['sat.mp3', 'ur.mp3', 'ated.mp3']`
 
 Requirements:
  - python3

@@ -71,7 +71,7 @@ def section(x,y): #Function to get specific part of input text using x and y, se
 	pos=length-x
 	return origtext[pos-y:pos]
 if args.input != None:
-	origtext="-"+re.sub("[']", "-#-", (re.sub("[^0-9a-z']", " ", args.input.lower()))).replace(" ", "-@-")+"-" # -#- replaces '  so don't becomes don-#-t to match the recording name don-#-t.mp3/wav
+	origtext="-"+re.sub("[']", "-#-", (re.sub("[^0-9a-z']", " ", args.input.lower()))).replace(" ", "--@--")+"-" # -#- replaces '  so don't becomes don-#-t to match the recording name don-#-t.mp3/wav
 	length=len(origtext)
 	print(origtext)
 	splittext=[]
@@ -82,10 +82,10 @@ if args.input != None:
 	#y is how many characters we are grabbing, starting from x
 	#pos is where we are in the text from the start, aka length-x
 	while x <= length:
-		if pos <= 8:
+		if pos <= 10:
 			y=pos
 		else:
-			y=8
+			y=10
 		found=False
 		while y > 0:
 			if section(x,y)=="":
@@ -96,8 +96,14 @@ if args.input != None:
 				print(section(x,y))
 			currentfile=section(x,y)+"."+filetype #in the next line we are checking to see if the filename in this variable exists in the recordings, to see if a certain set of characters has a recording.
 			currentfilewithoutlastchar =section(x,y)[:-1]+"."+filetype
+			currentfilewithoutlast2chars =section(x,y)[:-2]+"."+filetype
 			if (currentfile in sounds):#check if filename exists
 				splittext.append(currentfile) # Add name of decided recording to splittext: the list of recordings that form the final output
+				x+=y
+				found=True
+				break
+			elif (section(x,y)[-2:] == "--") and (currentfilewithoutlast2chars in sounds): #if filename from last if statement doesn't exist, check if the last character is "-". If so, check if it exists without the "-" eg. does ated-.mp3 exist? no, does ated.mp3 exist, yes. That way it won't prioritize ed-.mp3 and do a.mp3 t.mp3 ed-.mp3
+				splittext.append(currentfilewithoutlast2chars) # Add name of decided recording to splittext: the list of recordings that form the final output
 				x+=y
 				found=True
 				break
