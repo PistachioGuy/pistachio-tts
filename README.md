@@ -1,6 +1,8 @@
 # Pistachio Text to Speech
 My python text to speech project
 
+
+
 It works by scanning a word backwards for specific letter combinations.
 
 For example: "saturated"
